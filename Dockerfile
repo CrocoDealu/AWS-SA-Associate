@@ -24,13 +24,6 @@ RUN curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o aws
  && rm -rf awscliv2.zip aws
 
 
-# Install Terraform (version via build-arg)
-RUN set -eux; \
-    curl -fsSL -o /tmp/terraform.zip "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip"; \
-    unzip /tmp/terraform.zip -d /usr/local/bin; \
-    rm /tmp/terraform.zip
-
-# Install kubectl (stable)
 RUN curl -fsSL -o /usr/local/bin/kubectl "$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
  && chmod +x /usr/local/bin/kubectl || true
 
