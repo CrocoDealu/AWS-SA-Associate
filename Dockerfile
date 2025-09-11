@@ -27,6 +27,13 @@ RUN curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o aws
 RUN curl -fsSL -o /usr/local/bin/kubectl "$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
  && chmod +x /usr/local/bin/kubectl || true
 
+RUN if [ -n "$TF_VERSION" ]; then \
+      apt-get install -y --no-install-recommends "terraform=${TF_VERSION}*" ; \
+    else \
+      apt-get install -y --no-install-recommends terraform ; \
+    fi \
+ && rm -rf /var/lib/apt/lists/*
+
 # Create a non-root user for VS Code
 RUN groupadd --gid ${USER_UID} ${USERNAME} || true \
  && useradd --uid ${USER_UID} --gid ${USER_UID} -m ${USERNAME} -s /bin/bash || true \
